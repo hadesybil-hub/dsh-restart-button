@@ -34,8 +34,12 @@
     "restart",
     "shutdown",
     "web",
-    "deepseek-harness"
+    "deepseek-harness",
+    "dsh-plugin"
   ],
+  "scripts": {
+    "check": "node scripts/check.mjs"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

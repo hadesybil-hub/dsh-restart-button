@@ -1,7 +1,7 @@
 {
   "name": "dsh-restart-button",
-  "version": "0.1.0",
-  "description": "Adds a restart button next to the shutdown button in the bottom-right of the DeepSeek Harness Web GUI. One click restarts the dsh web process (new server + reopen browser) instead of just exiting.",
+  "version": "0.1.1",
+  "description": "Adds a floating restart button in the bottom-right of the DeepSeek Harness Web GUI. One click restarts the dsh web process (new server + reopen browser) instead of just exiting.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {

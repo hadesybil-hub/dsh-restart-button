@@ -1,7 +1,7 @@
 {
   "name": "dsh-restart-button",
-  "version": "0.2.0",
-  "description": "Adds a floating restart button in the bottom-right of the DeepSeek Harness Web GUI. One click restarts the dsh web process and returns you to the session: the server comes back and the page reloads itself.",
+  "version": "0.3.0",
+  "description": "Adds a floating quit button in the bottom-right of the DeepSeek Harness Web GUI. One click fully exits the dsh web process, releases its port, and leaves the next launch a cold start.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {

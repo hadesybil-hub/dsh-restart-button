@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [0.3.0] - 2026-09-28
+- **The button now quits instead of restarting.** One click fully exits `dsh web`: the listening socket dies with the process, so the port is released and the next launch is a cold start.
+- **The restart machinery is gone.** The waiter, its watchdog, the boot-log capture, `resolveDshBin()`, and the client's reconnect-and-reload loop were all deleted — after a quit there is no server to come back to, so they were dead weight. `git revert` the 0.2.0 commit to get them back.
+- Route renamed `/api/dsh-restart/restart` → `/api/dsh-restart/quit`. The package name is unchanged.
+- Confirm card says what it will do — the port is released and running tasks are interrupted — and the result card tells you to start DSH again from the desktop launcher.
+- Fixed a latent bug on the exit seam: the plugin's own force-exit fallback fired at **4 s**, *before* DSH's own 5 s disposal grace, so it could cut the plugin tree's teardown short and orphan child processes. It now fires at 8 s, deliberately after the grace.
+- `scripts/check.mjs` now guards this plugin's one invariant instead of the deleted waiter plumbing: the host half must not spawn a process, the client half must not reload, and both halves must agree on the route.
+
 ## [0.2.0] - 2026-09-28
 - **The page comes back on its own.** After a restart the client watches the server leave and return, then reloads itself — so one click restarts DSH and returns you to the session instead of leaving a dead tab behind. It reloads into the same URL minus the one-shot `?token=` handshake; the durable `dsh-auth` cookie is what carries the session across the restart.
 - **No more duplicate tab.** A caller that reconnects itself asks the server to skip `dsh web`'s own browser handoff, via the `x-dsh-restart-open-browser: 0` request header. A plain `curl` POST still gets the browser handoff.

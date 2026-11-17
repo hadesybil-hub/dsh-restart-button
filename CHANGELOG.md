@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [0.4.0] - 2026-11-17
+- **It restarts again, this time on the Desktop app.** One click restarts the whole application: the Electron shell closes through its own quit path (which disposes the Host and flushes sessions) and the same executable is launched again. `dsh 0.2.x` gives plugins no restart seam — `ctx.appExit` only stops the Host and leaves the shell in its recovery dialog — so a detached helper owns the restart.
+- **Renamed to `@darkthee/dsh-restart-button`.** The unscoped name `dsh-restart-button` belongs to another publisher (published 2026-08-16), and npm package names are first-come-first-served.
+- **Desktop-only, explicitly.** A CLI `dsh web` Host answers `501 desktop-only` instead of spawning a competing server.
+- **The helper never force-kills.** It asks the shell to close, waits up to 25 s, and gives up with a log line if the shell is still alive — a cancel in the shell's own quit confirmation stays a cancel.
+- **Client module id equals the package name.** The Host maps a browser bundle to its entry by that id, so the short name silently kept the button from loading at all.
+- `engines.dsh` raised to `>=0.2.0`; verified against `0.2.2-rc.3`.
+- `scripts/check.mjs` guards the new invariants: the route is shared by both halves, the helper exists, and it waits for the shell to exit before relaunching.
+
 ## [0.3.0] - 2026-09-28
 - **The button now quits instead of restarting.** One click fully exits `dsh web`: the listening socket dies with the process, so the port is released and the next launch is a cold start.
 - **The restart machinery is gone.** The waiter, its watchdog, the boot-log capture, `resolveDshBin()`, and the client's reconnect-and-reload loop were all deleted — after a quit there is no server to come back to, so they were dead weight. `git revert` the 0.2.0 commit to get them back.
